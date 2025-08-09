@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v0.0.5] - 2025-08-09
+- Hop 5: Housekeeping A.
+- Test hygiene: fix float/int compare; free scenes in tests; 0 warnings baseline.
+- Demote DB migration noise; add DB API aliases (list_/read_) without breaking.
+- Docs: update roadmap, project index; add test_baseline.md.
+
 ## [v0.0.4] - 2025-08-09
 - Hop 4: Data discovery + seed content.
 - Added SQL migration (0002) and idempotent seed ensure in DB autoload.

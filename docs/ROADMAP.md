@@ -80,7 +80,7 @@ Hop 4: Data discovery + seed content — Done (v0.0.4)
   - [x] Data access layer in DB autoload with typed methods; safe fallbacks
   - [x] Tests: seeds/data access (unit + integration) green
 
-Hop 5: Housekeeping A — In Progress
+Hop 5: Housekeeping A — Done (v0.0.5)
 - Goal: Pay down early debt.
   - [x] Remove scratch tests; prune dead code (no scratch dir present; removed noisy prints)
   - [x] Refactor: DB API naming, folder layout, autoload init order (added non-breaking list_/read_ aliases; autoload order reviewed)
