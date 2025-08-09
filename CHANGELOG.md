@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v0.0.4] - 2025-08-09
+- Hop 4: Data discovery + seed content.
+- Added SQL migration (0002) and idempotent seed ensure in DB autoload.
+- Data accessors in DB: get_factions, get_suffixes, get_lore, get_ascii_art (with safe fallbacks).
+- Tests added: unit DB data access; integration seed presence. All green.
+
 ## [v0.0.3] - 2025-08-09
 - Hop 3: Save/Load meta (3 slots) via SaveService autoload.
 - Playtime tracking in Main; F5 hotkey to save; save-on-exit.

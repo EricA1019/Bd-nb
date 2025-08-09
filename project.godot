@@ -15,12 +15,6 @@ run/main_scene="res://scenes/ui/TitleScreen.tscn"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
-[display]
-window/size/viewport_width=1280
-window/size/viewport_height=720
-window/stretch/mode="canvas_items"
-window/stretch/aspect="keep"
-
 [autoload]
 
 Log="*res://scripts/systems/Log.gd"
@@ -28,10 +22,17 @@ EventBus="*res://scripts/systems/EventBus.gd"
 DB="*res://scripts/systems/DB.gd"
 SaveService="*res://scripts/systems/SaveService.gd"
 
-[logging]
-file_logging/enable_file_logging=true
-file_logging/log_path="user://logs/log.txt"
+[display]
+
+window/size/viewport_width=1280
+window/size/viewport_height=720
+window/stretch/mode="canvas_items"
 
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/Godot-4-ASCII-Grid/addons/ascii_grid/plugin.cfg", "res://addons/godot-sqlite/plugin.cfg", "res://addons/gut/plugin.cfg")
+
+[logging]
+
+file_logging/enable_file_logging=true
+file_logging/log_path="user://logs/log.txt"

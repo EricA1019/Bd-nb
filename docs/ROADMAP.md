@@ -65,19 +65,20 @@ Hop 2: ASCII grid 80×36 + New Game flow — Done (v0.0.2)
 - New Game transitions from TitleScreen to Main
 - Tests added: ascii grid presence/size, New Game flow; smoke tests pass
 
-Hop 3: Save/Load (3 slots) — JSON + meta — Planned
+Hop 3: Save/Load (3 slots) — JSON + meta — Done (v0.0.3)
 - Goal: Save position/state to JSON; meta.json for title screen preview.
 - Deliverables
-  - [ ] JSON schema(s) for save.json/meta.json
-  - [ ] Save/Load services; slot directory mgmt; playtime tracking
-  - [ ] Smoke test: create/load slot
+  - [x] JSON schema(s) for save.json/meta.json
+  - [x] Save/Load services; slot directory mgmt; playtime tracking
+  - [x] Smoke test: create/load slot; F5 save; save-on-exit; Continue latest
 
-Hop 4: Data discovery + seed content — Planned
+Hop 4: Data discovery + seed content — Done (v0.0.4)
 - Goal: Load some text, ASCII art, and suffix seeds from DB; no hard-coded strings.
 - Deliverables
-  - [ ] SQL migrations: tables for suffix, lore, ascii_art, factions
-  - [ ] Seed rows for demo (imps, angels factions; a handful of suffixes; title ASCII)
-  - [ ] Data access layer in DB autoload with typed methods
+  - [x] SQL migrations: tables for suffix, lore, ascii_art, factions
+  - [x] Seed rows for demo (imps, angels factions; a handful of suffixes; title ASCII)
+  - [x] Data access layer in DB autoload with typed methods; safe fallbacks
+  - [x] Tests: seeds/data access (unit + integration) green
 
 Hop 5: Housekeeping A — Planned
 - Goal: Pay down early debt.

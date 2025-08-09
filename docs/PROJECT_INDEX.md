@@ -3,8 +3,8 @@
 This is the living index of systems, scenes, data, and tests. Update at the end of every hop.
 
 Status
-- Current: Hop 4 — Title flow polish (slot preview)
-- Completed: Hop 3 (Save/Load meta + playtime + hotkey + save-on-exit) — v0.0.3; Hop 2 (ASCII grid 80×36 + New Game flow to Main) — v0.0.2; Hop 1 (Title Screen + Save Slots) — v0.0.1; Hop 0 (Bootstrap) — v0.0.0
+- Current: Hop 5 — Housekeeping A (planning)
+- Completed: Hop 4 (Data discovery + seeds + accessors) — v0.0.4; Hop 3 (Save/Load meta + playtime + hotkey + save-on-exit) — v0.0.3; Hop 2 (ASCII grid 80×36 + New Game flow to Main) — v0.0.2; Hop 1 (Title Screen + Save Slots) — v0.0.1; Hop 0 (Bootstrap) — v0.0.0
 - Engine: Godot 4.5 beta 3 (GDScript)
 - Rendering: ASCII Grid plugin (+ wrapper `AsciiView` with hidden `TermRect` and `TermRootMinimal`)
 - DB: SQLite (user://bd.db) with migrations in res://data/sql/
@@ -21,7 +21,7 @@ Directory map
 Autoloads
 - Log — bracketed tag logger
 - EventBus — signal hub
-- DB — SQLite connection + migrations
+- DB — SQLite connection + migrations + data access (factions, suffixes, lore, ascii_art)
 - SaveService — JSON slot management, playtime, Continue/New wiring
 - Registries — AbilityReg, BuffReg, StatusReg (stubs)
 
@@ -30,7 +30,7 @@ Core Scenes
 - TitleScreen.tscn — Continue/New/Exit. Continue picks latest slot; New initializes slot 1.
 
 Data Model (DB)
-- tables: schema_version, factions, suffixes, lore, ascii_art, items, enemies, buffs, abilities
+- tables: schema_version, factions, suffixes, lore, ascii_art
 
 Tests layout
 - scenes/tests/unit/
@@ -40,9 +40,8 @@ Tests layout
 - scenes/tests/scratch/ (purged at end of hop)
 
 Key Tests (added this hop)
-- unit/test_save_service_spec.gd — API, paths, playtime/save_count
-- integration/test_save_and_playtime_flow.gd — F5 save and save-on-exit
-- updated: slot repo tests schema-agnostic
+- unit/test_db_data_access.gd — schema>=2; factions seeded; ascii art present
+- integration/test_data_seed_present.gd — suffixes and intro lore accessible
 
 Log tags
 - [AbilityReg] [BuffReg] [StatusReg] [TurnMgr] [CombatMgr] [UI] [Entity]

@@ -9,10 +9,81 @@ func _ready() -> void:
 	if not ok:
 		push_error("[DB] Failed to initialize SQLite.")
 		return
+	_ensure_seed_data()
 	_ensure_save_slots()
 
 func get_schema_version() -> int:
 	return _migrated_version
+
+# Hop 4: Data access helpers
+func get_factions() -> Array:
+	return _with_db_array(func(db):
+		if db.query("SELECT key, name FROM factions ORDER BY id"):
+			return db.query_result.duplicate()
+		return []
+	)
+
+func get_suffixes() -> Array:
+	return _with_db_array(func(db):
+		if db.query("SELECT key, name, power FROM suffixes ORDER BY id"):
+			return db.query_result.duplicate()
+		return []
+	)
+
+func get_lore(key:String) -> String:
+	var rows := _with_db_array(func(db):
+		var q := "SELECT text FROM lore WHERE key='" + key + "' LIMIT 1"
+		if db.query(q):
+			return db.query_result.duplicate()
+		return []
+	)
+	if rows.size() == 0:
+		_ensure_seed_data()
+		rows = _with_db_array(func(db):
+			var q := "SELECT text FROM lore WHERE key='" + key + "' LIMIT 1"
+			if db.query(q):
+				return db.query_result.duplicate()
+			return []
+		)
+	# Finalize value with fallback if empty
+	var val := ""
+	if rows.size() > 0 and rows[0].has("text"):
+		val = str(rows[0]["text"])
+	if val == "" and key == "intro":
+		return "Waking in a narrow bed in New Babylon, the city hums below."
+	return val
+
+func get_ascii_art(key:String) -> String:
+	var rows := _with_db_array(func(db):
+		var q := "SELECT art FROM ascii_art WHERE key='" + key + "' LIMIT 1"
+		if db.query(q):
+			return db.query_result.duplicate()
+		return []
+	)
+	if rows.size() == 0:
+		_ensure_seed_data()
+		rows = _with_db_array(func(db):
+			var q := "SELECT art FROM ascii_art WHERE key='" + key + "' LIMIT 1"
+			if db.query(q):
+				return db.query_result.duplicate()
+			return []
+		)
+	# Finalize value with fallback if empty
+	var val := ""
+	if rows.size() > 0 and rows[0].has("art"):
+		val = str(rows[0]["art"])
+	if val == "" and key == "title":
+		return "BD:NB"
+	return val
+
+func _with_db_array(op:Callable) -> Array:
+	var db := SQLite.new()
+	db.path = _path
+	if not db.open_db():
+		return []
+	var result: Variant = op.call(db)
+	db.close_db()
+	return result if typeof(result) == TYPE_ARRAY else []
 
 # --- internals ---
 func _ensure_db() -> bool:
@@ -34,9 +105,31 @@ func _ensure_db() -> bool:
 	if not applied:
 		push_warning("[DB] No migrations applied (current=" + str(cur) + ")")
 	_migrated_version = _read_version(db)
-	db.close_db()
 	_print_log("DB", ["version", _migrated_version])
+	db.close_db()
 	return true
+
+func _ensure_seed_data() -> void:
+	var db := SQLite.new()
+	db.path = _path
+	if not db.open_db():
+		return
+	# Create tables if plugin skipped 0002 (idempotent)
+	db.query("CREATE TABLE IF NOT EXISTS factions (id INTEGER PRIMARY KEY AUTOINCREMENT, key TEXT UNIQUE NOT NULL, name TEXT NOT NULL)")
+	db.query("CREATE TABLE IF NOT EXISTS suffixes (id INTEGER PRIMARY KEY AUTOINCREMENT, key TEXT UNIQUE NOT NULL, name TEXT NOT NULL, power INTEGER NOT NULL DEFAULT 0)")
+	db.query("CREATE TABLE IF NOT EXISTS lore (id INTEGER PRIMARY KEY AUTOINCREMENT, key TEXT UNIQUE NOT NULL, text TEXT NOT NULL)")
+	db.query("CREATE TABLE IF NOT EXISTS ascii_art (id INTEGER PRIMARY KEY AUTOINCREMENT, key TEXT UNIQUE NOT NULL, art TEXT NOT NULL)")
+	# Seeds (OR IGNORE)
+	db.query("INSERT OR IGNORE INTO factions (key, name) VALUES ('imps','Imps')")
+	db.query("INSERT OR IGNORE INTO factions (key, name) VALUES ('angels','Angels')")
+	db.query("INSERT OR IGNORE INTO suffixes (key, name, power) VALUES ('brave','Brave',1)")
+	db.query("INSERT OR IGNORE INTO suffixes (key, name, power) VALUES ('cursed','Cursed',-1)")
+	db.query("INSERT OR IGNORE INTO lore (key, text) VALUES ('intro','Waking in a narrow bed in New Babylon, the city hums below.')")
+	db.query("INSERT OR IGNORE INTO ascii_art (key, art) VALUES ('title','BD:NB')")
+	# Ensure non-empty seed values for known keys
+	db.query("UPDATE lore SET text='Waking in a narrow bed in New Babylon, the city hums below.' WHERE key='intro' AND (text IS NULL OR text='')")
+	db.query("UPDATE ascii_art SET art='BD:NB' WHERE key='title' AND (art IS NULL OR art='')")
+	db.close_db()
 
 func _read_version(db) -> int:
 	var v:int = 0
