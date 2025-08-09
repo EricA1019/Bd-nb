@@ -3,7 +3,7 @@
 This is the living index of systems, scenes, data, and tests. Update at the end of every hop.
 
 Status
-- Current: Hop 5 — Housekeeping A (planning)
+- Current: Hop 5 (Housekeeping A) — In Progress
 - Completed: Hop 4 (Data discovery + seeds + accessors) — v0.0.4; Hop 3 (Save/Load meta + playtime + hotkey + save-on-exit) — v0.0.3; Hop 2 (ASCII grid 80×36 + New Game flow to Main) — v0.0.2; Hop 1 (Title Screen + Save Slots) — v0.0.1; Hop 0 (Bootstrap) — v0.0.0
 - Engine: Godot 4.5 beta 3 (GDScript)
 - Rendering: ASCII Grid plugin (+ wrapper `AsciiView` with hidden `TermRect` and `TermRootMinimal`)
@@ -32,12 +32,9 @@ Core Scenes
 Data Model (DB)
 - tables: schema_version, factions, suffixes, lore, ascii_art
 
-Tests layout
-- scenes/tests/unit/
-- scenes/tests/integration/
-- scenes/tests/smoke/
-- scenes/tests/game_flow/
-- scenes/tests/scratch/ (purged at end of hop)
+Testing
+- GUT: unit/, integration/, smoke/, game_flow/. Scratch removed at end of hop.
+- Current baseline: 19/19 passing; warnings: 0.
 
 Key Tests (added this hop)
 - unit/test_db_data_access.gd — schema>=2; factions seeded; ascii art present

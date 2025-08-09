@@ -103,7 +103,7 @@ func _ensure_db() -> bool:
 	# Apply migrations in order if needed
 	var applied: bool = _apply_migrations(db, cur)
 	if not applied:
-		push_warning("[DB] No migrations applied (current=" + str(cur) + ")")
+		_print_log("DB", ["no_migrations", "current=", cur])
 	_migrated_version = _read_version(db)
 	_print_log("DB", ["version", _migrated_version])
 	db.close_db()

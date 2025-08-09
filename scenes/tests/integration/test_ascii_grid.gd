@@ -18,3 +18,6 @@ func test_ascii_node_exists_and_is_80x36():
 	# term_root should be configured
 	var term_root = ascii.get("term_root")
 	assert_not_null(term_root, "Ascii.term_root configured")
+	# Explicitly free to avoid GUT 'unfreed children' warning in after_each
+	main.queue_free()
+	await get_tree().process_frame

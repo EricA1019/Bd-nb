@@ -80,11 +80,11 @@ Hop 4: Data discovery + seed content — Done (v0.0.4)
   - [x] Data access layer in DB autoload with typed methods; safe fallbacks
   - [x] Tests: seeds/data access (unit + integration) green
 
-Hop 5: Housekeeping A — Planned
+Hop 5: Housekeeping A — In Progress
 - Goal: Pay down early debt.
   - [ ] Remove scratch tests; prune dead code
   - [ ] Refactor: DB API naming, folder layout, autoload init order
-  - [ ] Lint/log review; ensure warnings are intentional
+  - [x] Lint/log review; ensure warnings are intentional (tests 19/19, warnings 0)
   - [ ] Docs: update PROJECT_INDEX.md, test_baseline.md
 
 Epoch 1 — Core Demo Flow (Apartment → Alley)

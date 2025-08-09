@@ -33,7 +33,7 @@ func test_force_save_creates_meta_and_increments_playtime():
 	var meta_path := "user://saves/slot_1/meta.json"
 	assert_true(FileAccess.file_exists(meta_path), "meta written")
 	var data := _read_json(meta_path)
-	assert_eq(data.slot, 1)
+	assert_eq(int(data.slot), 1)
 	assert_true(int(data.playtime_seconds) >= 2, "playtime accumulates")
 	assert_true(int(data.save_count) >= 1, "save_count increments")
 
