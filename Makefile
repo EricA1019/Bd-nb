@@ -137,9 +137,9 @@ help:
 # --- Godot / GUT helpers -----------------------------------------------------
 # These targets run Godot and GUT tests from the CLI.
 
-.PHONY: gd-run gd-headless gut-all gut-fast gut-help
+.PHONY: gd-run gd-headless gut-all gut-fast gut-help ci-test install-hooks
 
-GODOT ?= /home/eric/Desktop/Godot_v4.5-beta3_linux.x86_64
+GODOT ?= godot
 PROJ  ?= $(CURDIR)
 GARGS ?=
 
@@ -160,11 +160,15 @@ gut-fast:
 	@echo "Running filtered GUT tests (headless)… $(GARGS)"
 	"$(GODOT)" --headless --path "$(PROJ)" -s res://addons/gut/gut_cmdln.gd -gdir=res://scenes/tests -ginclude_subdirs -gprefix=test_ -gexit $(GARGS)
 
-gut-help:
-	@echo "GUT options:"
-	@echo "  -gselect=<regex>   filter by file/suite name"
-	@echo "  -gsuite=NAME       run a specific suite"
-	@echo "  -glog=junit|text   output format"
+ci-test:
+	@echo "CI: Running GUT tests (headless)…"
+	$(MAKE) gut-all GODOT=$(GODOT)
+
+install-hooks:
+	@echo "Installing git pre-push hook..."
+	install -d .git/hooks
+	install -m 0755 scripts/dev/git-hooks/pre-push.sh .git/hooks/pre-push
+	@echo "Done. The pre-push hook will run headless GUT tests before pushing."
 
 # Default target
 .DEFAULT_GOAL := help
