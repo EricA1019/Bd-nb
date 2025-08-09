@@ -84,15 +84,16 @@ Hop 2: Data discovery + seed content
 Hop 3: Save/Load (3 slots) — JSON + meta
 - Goal: Save position/state to JSON; meta.json for title screen preview.
 - Deliverables
-  - [ ] JSON schema(s) for save.json/meta.json
-  - [ ] Save/Load services; slot directory mgmt; playtime tracking
-  - [ ] Smoke test: create/load slot
+  - [x] JSON meta (slot, created_at, updated_at, version, playtime_seconds, save_count)
+  - [x] SaveService autoload; slot directory mgmt; playtime tracking
+  - [x] F5 save; save-on-exit; Continue loads latest; New initializes slot 1
+  - [x] TopBar shows slot/playtime; tests green
 
 Hop 4: Title screen → Continue/New/Load
 - Goal: Menu flows to Main; shows 3 slots with metadata.
 - Deliverables
-  - [ ] Scene: TitleScreen.tscn
-  - [ ] Integration tests: create slot, show meta, continue
+  - [ ] Scene: TitleScreen.tscn slot preview
+  - [ ] Integration: Continue picks latest (explicit test); show meta
 
 Hop 5: Housekeeping A
 - Goal: Pay down early debt.

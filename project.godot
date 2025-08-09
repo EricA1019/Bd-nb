@@ -26,6 +26,7 @@ window/stretch/aspect="keep"
 Log="*res://scripts/systems/Log.gd"
 EventBus="*res://scripts/systems/EventBus.gd"
 DB="*res://scripts/systems/DB.gd"
+SaveService="*res://scripts/systems/SaveService.gd"
 
 [logging]
 file_logging/enable_file_logging=true

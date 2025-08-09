@@ -15,27 +15,45 @@ func _ready() -> void:
 	# Check save slot availability
 	_update_continue_button()
 
+func _svc() -> Node:
+	return get_node_or_null("/root/SaveService")
+
 func _update_continue_button() -> void:
 	# Enable Continue if any save slot has meta.json
 	var has_saves := false
-	for i in range(1, 4):
-		var meta_path := "user://saves/slot_%s/meta.json" % [i]
-		if FileAccess.file_exists(meta_path):
-			has_saves = true
-			break
+	var svc := _svc()
+	if svc:
+		has_saves = int(svc.call("get_latest_slot")) > 0
+	else:
+		for i in range(1, 4):
+			var meta_path := "user://saves/slot_%s/meta.json" % [i]
+			if FileAccess.file_exists(meta_path):
+				has_saves = true
+				break
 	
 	continue_btn.disabled = not has_saves
 
 func _on_continue_pressed() -> void:
 	print("[TitleScreen] Continue pressed")
-	# For now, just transition to Main
-	# Later: show SaveSlotPicker or go to most recent slot
-	_transition_to_main()
+	var svc := _svc()
+	if svc:
+		var s := int(svc.call("get_latest_slot"))
+		if s > 0:
+			svc.call("set_current_slot", s)
+			_transition_to_main()
+		else:
+			print("[TitleScreen] No saves found")
+	else:
+		_transition_to_main()
 
 func _on_new_game_pressed() -> void:
 	print("[TitleScreen] New Game pressed") 
-	# For now, just transition to Main
-	# Later: show SaveSlotPicker for slot selection
+	var svc := _svc()
+	if svc:
+		svc.call("set_current_slot", 1)
+		svc.call("start_session")
+		svc.call("force_save", 0)
+	# Transition to Main
 	_transition_to_main()
 
 func _on_exit_pressed() -> void:
