@@ -51,49 +51,35 @@ Hop Template (copy per hop)
 
 Epoch 0 — Foundations & Shell
 Phase 0.0 — Project bootstrap and 4-panel shell
-Hop 0: Bootstrap, tasks, tests, DB init
-- Goal: Bootable 4-panel shell with ASCII grid, autoloads, logging, GUT, SQLite DB created/migrated; 3 save slots directories.
-- Deliverables
-  - [ ] Autoloads: EventBus, DB, Log, Registries (stubs: AbilityReg, BuffReg, StatusReg)
-  - [ ] Scenes: Main.tscn with TopBar, AsciiPanel (80×36), StatusPanel, ActionBar
-  - [ ] Logging: Log.gd with bracketed tags; basic startup logs
-  - [ ] DB: user://bd.db created; migrations runner; version table; initial schema (res://data/sql/0001_init.sql)
-  - [ ] Saves: user://saves/slot_{1..3}/ with meta.json schema
-  - [ ] VS Code tasks + Makefile targets; GUT installed & sample tests pass
-  - [ ] Smoke test: boots to main shell without errors
-- Tests to write
-  - [ ] unit: Log formatting; DB migration runner can apply 0001 and set version
-  - [ ] integration: Boot Main scene; verify 4 panels exist and ASCII grid size is 80×36
-  - [ ] smoke: Title-less boot; no errors in logs
+Hop 0: Bootstrap, tasks, tests, DB init — Done (v0.0.0)
 
-Hop 1: Input loop + camera/grid draw
-- Goal: Keyboard input navigates a cursor/actor on the AsciiPanel; redraw loop clean and timed.
-- Deliverables
-  - [ ] ASCII draw pipeline (room buffer → grid)
-  - [ ] Input map (arrow/WASD + confirm/cancel)
-  - [ ] Unit tests for buffer ops and bounds
+Hop 1: Title screen + save slots — Done (v0.0.1)
+- TitleScreen scene (Continue/New/Exit) wired to Main
+- Save slots dir structure and repo; Continue enabled when any meta.json exists
+- Tests: menu flow, repo, migrations
 
-Hop 2: Data discovery + seed content
-- Goal: Load some text, ASCII art, and suffix seeds from DB; no hard-coded strings.
-- Deliverables
-  - [ ] SQL migrations: tables for suffix, lore, ascii_art, factions
-  - [ ] Seed rows for demo (imps, angels factions; a handful of suffixes; title ASCII)
-  - [ ] Data access layer in DB autoload with typed methods
+Hop 2: ASCII grid 80×36 + New Game flow — Done (v0.0.2)
+- Center Ascii panel present in Main; 80×36 grid using AsciiView wrapper
+- AsciiView wraps plugin TermRect; TermRootMinimal provides visible border
+- Distinct debug colors for panels; Ascii transparent
+- New Game transitions from TitleScreen to Main
+- Tests added: ascii grid presence/size, New Game flow; smoke tests pass
 
-Hop 3: Save/Load (3 slots) — JSON + meta
+Hop 3: Save/Load (3 slots) — JSON + meta — Planned
 - Goal: Save position/state to JSON; meta.json for title screen preview.
 - Deliverables
   - [ ] JSON schema(s) for save.json/meta.json
   - [ ] Save/Load services; slot directory mgmt; playtime tracking
   - [ ] Smoke test: create/load slot
 
-Hop 4: Title screen → Continue/New/Load
-- Goal: Menu flows to Main; shows 3 slots with metadata.
+Hop 4: Data discovery + seed content — Planned
+- Goal: Load some text, ASCII art, and suffix seeds from DB; no hard-coded strings.
 - Deliverables
-  - [ ] Scene: TitleScreen.tscn
-  - [ ] Integration tests: create slot, show meta, continue
+  - [ ] SQL migrations: tables for suffix, lore, ascii_art, factions
+  - [ ] Seed rows for demo (imps, angels factions; a handful of suffixes; title ASCII)
+  - [ ] Data access layer in DB autoload with typed methods
 
-Hop 5: Housekeeping A
+Hop 5: Housekeeping A — Planned
 - Goal: Pay down early debt.
   - [ ] Remove scratch tests; prune dead code
   - [ ] Refactor: DB API naming, folder layout, autoload init order
@@ -102,96 +88,23 @@ Hop 5: Housekeeping A
 
 Epoch 1 — Core Demo Flow (Apartment → Alley)
 Phase 1.0 — Exploration baseline
-Hop 6: Apartment scene + static ASCII map
+Hop 6: Apartment scene + static ASCII map — Planned
 - Goal: Walkable apartment room; mirror hotspot.
 - Deliverables
   - [ ] Scene: Apartment.tscn; map from DB ascii_art
   - [ ] Interaction system (hotspots/signs)
 
-Hop 7: Character creation (mirror)
-- Goal: Separate scene; choose background (e.g., homicide/narcotics/organized crime) and traits.
-- Deliverables
-  - [ ] Scene: CharCreate.tscn; returns selections to player profile
-  - [ ] Data: backgrounds/traits in DB; IDs stored in save
+Hop 7: Character creation (mirror) — Planned
+- Goal: Separate scene; choose background and traits.
 
-Hop 8: Inventory + equipment
-- Goal: Equip gear; stats modified; tooltips auto-populate.
-- Deliverables
-  - [ ] UI: Inventory panel; equipment slots
-  - [ ] Data: items table; stat mods; affix support stub
+Hop 8: Inventory + equipment — Planned
 
-Hop 9: Alley escort setup
-- Goal: Meet Dona Margarita; short escort path; triggers first encounter.
-- Deliverables
-  - [ ] Scene: Alley.tscn; static map; NPC follow
+Hop 9: Alley escort setup — Planned
 
-Hop 10: Housekeeping B
-- Goal: Stabilize before combat.
-  - [ ] Scratch tests cleanup; integration tests for flow Apartment→Alley
-  - [ ] DB VACUUM/ANALYZE (if applicable); consolidate migrations
-
-Epoch 2 — Combat Beats
-Phase 2.0 — First fights and mechanics
-Hop 11: Combat framework + initiative
-- Goal: Turn system with initiative each round; 2 actions/turn (at most 1 Move + 1 Act).
-- Deliverables
-  - [ ] BattleManager scene; TurnManager; grid overlay
-  - [ ] Unit tests: initiative roll (speed-biased), action flow
-
-Hop 12: Action menus & execution
-- Goal: Category menus: Fight, Abilities, Inventory, Defend; input driven.
-- Deliverables
-  - [ ] ActionBar auto-populates from state
-  - [ ] Integration tests: select/resolve actions
-
-Hop 13: Damage types + Blessing buff
-- Goal: Physical subtypes: ballistic, holy, infernal, fire. Blessing converts ballistic→holy for N rounds.
-- Deliverables
-  - [ ] BuffReg, Damage system tables; type conversions
-  - [ ] Tests: conversion correctness, duration
-
-Hop 14: First combat scenario — 2 imps with suffixes
-- Goal: Scripted battle in alley; imps get semi-random suffixes from DB; showcase weak ballistic then blessed holy.
-- Deliverables
-  - [ ] Data: enemy templates; suffix system (names/stats modify)
-  - [ ] Game flow test: battle outcome per script
-
-Hop 15: Housekeeping C
-- Goal: Tighten combat code; remove scaffolding; doc combat APIs.
-
-Epoch 3 — Story Beats & Settlement
-Phase 3.0 — Unwinnable angel fight and persistence
-Hop 16: Unwinnable angel fight + permadeath
-- Goal: Scripted loss; record NPC deaths in save; return to narrative.
-
-Hop 17: Settlement intro (New Babylon)
-- Goal: Show basic resource production loop; minimal UI for rates/storage.
-
-Hop 18: Recruit militia + suffixes on recruits
-- Goal: Two militia produced; one always has suffix Brave; tutorial callout.
-
-Hop 19: Travel event (angels vs demons) + reward weapon
-- Goal: Branching event; recruit side(s) or both with high charm; grant .357 Magnum with affix.
-
-Hop 20: Housekeeping D
-- Goal: Stabilize systems before dungeon.
-
-Epoch 4 — Dungeon & Wrap
-Phase 4.0 — Procgen and loot
-Hop 21: Minimal procgen (rooms + corridors)
-- Goal: Simple generator; grid exploration; orthogonal movement; no FOV/LOS.
-
-Hop 22: Loot and gear assignment
-- Goal: Drops from tables; assign to self/followers; inventory updated.
-
-Hop 23: Demo wrap
-- Goal: Splash/credits; return to title; save completion flag.
-
-Hop 24: Housekeeping E (Pre-release)
-- Goal: Remove scratch tests, dead assets; finalize docs; tag demo milestone.
+Hop 10: Housekeeping B — Planned
 
 Backlog (post-demo candidates)
-- Mouse support; per-faction fonts; FOV/LOS; animations; mod loader (user://mods/); localization pipeline; richer procgen; AI behaviors.
+- Mouse support; per-faction fonts; FOV/LOS; animations; mod loader; localization; richer procgen; AI behaviors.
 
 Risks & mitigations
 - 4.5 beta API drift: pin plugin versions; smoke tests on upgrade.
@@ -206,7 +119,3 @@ Files to maintain
 - PROJECT_INDEX.md (components map)
 - docs/technical/test_baseline.md (status of tests)
 - docs/playtests/<date>_<hop>.md (manual results)
-
-Next actions (Hop 0)
-- Create autoload stubs, Main scene shell, DB schema v1, tasks, and baseline tests.
-- Confirm CP437-like font asset or fallback; wire ASCII grid to render a room buffer.
