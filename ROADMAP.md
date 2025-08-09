@@ -8,6 +8,7 @@ This roadmap is organized into epochs → phases → hops. Each hop is a tiny, r
 References
 - Close-to-Shore Bible (Definition of Done, workflow, logging, data-first)
 - Preferences (logging tags, UI principles, data-driven conventions)
+- docs/WORKFLOW.md (VS Code tasks, Git, CI, logging, data)
 - See also: docs/PROJECT_INDEX.md, docs/AGENT_PROMPT.md
 
 Workflow (per hop)

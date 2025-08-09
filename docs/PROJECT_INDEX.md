@@ -3,8 +3,8 @@
 This is the living index of systems, scenes, data, and tests. Update at the end of every hop.
 
 Status
-- Current: Hop 1 (Title Screen + Save Slots) — PLANNED
-- Completed: Hop 0 (Bootstrap) — v0.0.0
+- Current: Hop 2 — PLANNED (TBD)
+- Completed: Hop 1 (Title Screen + Save Slots) — v0.0.1; Hop 0 (Bootstrap) — v0.0.0
 - Engine: Godot 4.5 beta 3 (GDScript)
 - Rendering: ASCII Grid plugin
 - DB: SQLite (user://bd.db) with migrations in res://data/sql/
@@ -14,20 +14,19 @@ Directory map
 - Scenes: res://scenes/
 - Scripts: res://scripts/
 - Data (DB seeds/sql): res://data/
+- Schemas: res://schemas/
 - Tests: res://scenes/tests/
-- Docs: res://docs/
+- Docs: res://docs/ (Workflow, Testing, CI)
 
-Autoloads (planned in Hop 0)
+Autoloads
 - Log — bracketed tag logger
 - EventBus — signal hub
 - DB — SQLite connection + migrations
 - Registries — AbilityReg, BuffReg, StatusReg (stubs)
 
-Core Scenes (planned)
+Core Scenes
 - Main.tscn — 4-panel shell (TopBar, AsciiPanel, StatusPanel, ActionBar)
-- TitleScreen.tscn — slot picker (Continue/New/Load)
-- Apartment.tscn — first exploration map (static ASCII)
-- Combat.tscn — menu-driven combat with TurnManager
+- TitleScreen.tscn — slot picker entry (Continue/New/Exit)
 
 Data Model (DB)
 - tables: schema_version, factions, suffixes, lore, ascii_art, items, enemies, buffs, abilities
@@ -43,7 +42,7 @@ Log tags
 - [AbilityReg] [BuffReg] [StatusReg] [TurnMgr] [CombatMgr] [UI] [Entity]
 
 Open decisions
-- CP437-like font asset selection (fallback ok for Hop 0).
+- CP437-like font asset selection (fallback ok for early hops).
 
 Versioning
 - Tags v0.<phase>.<hop> at hop end. Changelog appended per tag.

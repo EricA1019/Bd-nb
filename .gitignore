@@ -1,3 +1,25 @@
-# Godot 4+ specific ignores
-.godot/
-/android/
+# Godot & build artifacts
+/.godot/
+.import/
+*.import
+/export/
+
+# User data
+**/app_userdata/
+# Note: Godot user:// is runtime, not a repo path; keep this as reference
+
+# OS/files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+/logs/
+
+# Editor
+.vscode/**
+!.vscode/settings.json
+!.vscode/tasks.json
+
+# Vendored binaries (optional)
+addons/godot-sqlite/bin/**
