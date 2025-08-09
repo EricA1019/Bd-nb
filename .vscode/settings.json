@@ -25,6 +25,7 @@
     "files.associations": {
         "*.gd": "gdscript",
         "*.tscn": "gdscene",
-        "*.tres": "gdresource"
+        "*.tres": "gdresource",
+        "*.gdshader": "gdshader"
     }
 }

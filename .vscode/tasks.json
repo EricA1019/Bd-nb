@@ -11,6 +11,14 @@
       "problemMatcher": []
     },
     {
+      "label": "Godot: Open Editor",
+      "type": "shell",
+      "command": "${config:godotTools.editorPath.godot4}",
+      "args": ["-e", "--path", "${workspaceFolder}"],
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
       "label": "Godot: Run Headless",
       "type": "shell",
       "command": "${config:godotTools.editorPath.godot4}",
