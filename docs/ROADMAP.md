@@ -82,10 +82,10 @@ Hop 4: Data discovery + seed content — Done (v0.0.4)
 
 Hop 5: Housekeeping A — In Progress
 - Goal: Pay down early debt.
-  - [ ] Remove scratch tests; prune dead code
+  - [x] Remove scratch tests; prune dead code (no scratch dir present; removed noisy prints)
   - [ ] Refactor: DB API naming, folder layout, autoload init order
   - [x] Lint/log review; ensure warnings are intentional (tests 19/19, warnings 0)
-  - [ ] Docs: update PROJECT_INDEX.md, test_baseline.md
+  - [x] Docs: update PROJECT_INDEX.md, test_baseline.md
 
 Epoch 1 — Core Demo Flow (Apartment → Alley)
 Phase 1.0 — Exploration baseline

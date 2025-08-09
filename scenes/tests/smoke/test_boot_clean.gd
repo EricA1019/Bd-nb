@@ -27,8 +27,6 @@ func test_boot_minimal_clean():
 	add_child_autoqfree(main)
 	await get_tree().process_frame
 	var ui = main.get_node("UIRoot")
-	for c in ui.get_children():
-		print("[TEST] UIRoot child:", c.name)
 	assert_not_null(ui, "UIRoot exists")
 	assert_not_null(ui.get_node_or_null("TopBar"), "TopBar exists")
 	assert_not_null(ui.get_node_or_null("BottomBar"), "BottomBar exists")

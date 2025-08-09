@@ -13,8 +13,6 @@ func test_main_scene_has_four_regions():
 	# Should have UIRoot with 4 panels
 	var ui = main.get_node("UIRoot")
 	assert_not_null(ui, "UIRoot exists")
-	for c in ui.get_children():
-		print("[TEST] UIRoot child:", c.name)
 	assert_not_null(ui.get_node_or_null("TopBar"), "TopBar exists")
 	assert_not_null(ui.get_node_or_null("BottomBar"), "BottomBar exists") 
 	assert_not_null(ui.get_node_or_null("RightPanel"), "RightPanel exists")
