@@ -1,0 +1,126 @@
+{
+  // VS Code tasks for Godot + GUT
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Godot: Run Game",
+      "type": "shell",
+      "command": "${config:godotTools.editorPath.godot4}",
+      "args": ["--path", "${workspaceFolder}"],
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "Godot: Run Headless",
+      "type": "shell",
+      "command": "${config:godotTools.editorPath.godot4}",
+      "args": ["--headless", "--path", "${workspaceFolder}"],
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "GUT: All (headless)",
+      "type": "shell",
+      "command": "${config:godotTools.editorPath.godot4}",
+      "args": [
+        "--headless",
+        "--path", "${workspaceFolder}",
+        "-s", "res://addons/gut/gut_cmdln.gd",
+        "-gdir=res://scenes/tests",
+        "-ginclude_subdirs",
+        "-gprefix=test_",
+        "-gexit"
+      ],
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "GUT: Fast (filter)",
+      "type": "shell",
+      "command": "${config:godotTools.editorPath.godot4}",
+      "args": [
+        "--headless",
+        "--path", "${workspaceFolder}",
+        "-s", "res://addons/gut/gut_cmdln.gd",
+        "-gdir=res://scenes/tests",
+        "-ginclude_subdirs",
+        "-gprefix=test_",
+        "-gexit",
+        "${input:gutFilter}"
+      ],
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "GUT: Suite (headless)",
+      "type": "shell",
+      "command": "${config:godotTools.editorPath.godot4}",
+      "args": [
+        "--headless",
+        "--path", "${workspaceFolder}",
+        "-s", "res://addons/gut/gut_cmdln.gd",
+        "-gdir=res://scenes/tests",
+        "-ginclude_subdirs",
+        "-gprefix=test_",
+        "-gexit",
+        "-gsuite=${input:gutSuite}"
+      ],
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "GUT: Select (regex)",
+      "type": "shell",
+      "command": "${config:godotTools.editorPath.godot4}",
+      "args": [
+        "--headless",
+        "--path", "${workspaceFolder}",
+        "-s", "res://addons/gut/gut_cmdln.gd",
+        "-gdir=res://scenes/tests",
+        "-ginclude_subdirs",
+        "-gprefix=test_",
+        "-gexit",
+        "-gselect=${input:gutSelect}"
+      ],
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "GUT: JUnit (headless)",
+      "type": "shell",
+      "command": "${config:godotTools.editorPath.godot4}",
+      "args": [
+        "--headless",
+        "--path", "${workspaceFolder}",
+        "-s", "res://addons/gut/gut_cmdln.gd",
+        "-gdir=res://scenes/tests",
+        "-ginclude_subdirs",
+        "-gprefix=test_",
+        "-gexit",
+        "-glog=junit"
+      ],
+      "group": "test",
+      "problemMatcher": []
+    }
+  ],
+  "inputs": [
+    {
+      "id": "gutFilter",
+      "type": "promptString",
+      "description": "Extra GUT args (e.g., -gselect=unit or -gsuite=my_suite)",
+      "default": ""
+    },
+    {
+      "id": "gutSuite",
+      "type": "promptString",
+      "description": "GUT suite name (exact)",
+      "default": ""
+    },
+    {
+      "id": "gutSelect",
+      "type": "promptString",
+      "description": "Regex passed to -gselect (matches file/suite/test)",
+      "default": "unit|integration|smoke"
+    }
+  ]
+}

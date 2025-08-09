@@ -1,0 +1,30 @@
+{
+    "godotTools.editorPath.godot4": "/home/eric/Desktop/Godot_v4.5-beta3_linux.x86_64",
+    // Make this agent the default for the workspace
+    "github.copilot.chat.defaultAgent": "workspace",
+    // Reduce noise from generated/imported assets and vendored docs
+    "files.exclude": {
+        "**/.godot/**": true,
+        "**/.import/**": true,
+        "**/*.import": true,
+        "**/*.rpyc": true,
+        "**/*.rpa": true,
+        "**/*.rpymc": true,
+        "**/cache/": true,
+        "docs/Gut/**": true,
+        "docs/Godot/**": true
+    },
+    "search.exclude": {
+        "**/.godot/**": true,
+        "**/.import/**": true,
+        "**/*.import": true,
+        "docs/Gut/**": true,
+        "docs/Godot/**": true
+    },
+    // Ensure GDScript files get proper language features
+    "files.associations": {
+        "*.gd": "gdscript",
+        "*.tscn": "gdscene",
+        "*.tres": "gdresource"
+    }
+}
