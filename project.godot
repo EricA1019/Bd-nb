@@ -15,11 +15,21 @@ run/main_scene="res://scenes/ui/TitleScreen.tscn"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
+[display]
+window/size/viewport_width=1280
+window/size/viewport_height=720
+window/stretch/mode="canvas_items"
+window/stretch/aspect="keep"
+
 [autoload]
 
 Log="*res://scripts/systems/Log.gd"
 EventBus="*res://scripts/systems/EventBus.gd"
 DB="*res://scripts/systems/DB.gd"
+
+[logging]
+file_logging/enable_file_logging=true
+file_logging/log_path="user://logs/log.txt"
 
 [editor_plugins]
 
