@@ -15,6 +15,19 @@ func _ready() -> void:
 func get_schema_version() -> int:
 	return _migrated_version
 
+# Hop 5: API naming aliases (non-breaking)
+func list_factions() -> Array:
+	return get_factions()
+
+func list_suffixes() -> Array:
+	return get_suffixes()
+
+func read_lore(key:String) -> String:
+	return get_lore(key)
+
+func read_ascii_art(key:String) -> String:
+	return get_ascii_art(key)
+
 # Hop 4: Data access helpers
 func get_factions() -> Array:
 	return _with_db_array(func(db):

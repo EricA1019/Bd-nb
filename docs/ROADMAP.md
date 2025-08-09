@@ -83,7 +83,7 @@ Hop 4: Data discovery + seed content — Done (v0.0.4)
 Hop 5: Housekeeping A — In Progress
 - Goal: Pay down early debt.
   - [x] Remove scratch tests; prune dead code (no scratch dir present; removed noisy prints)
-  - [ ] Refactor: DB API naming, folder layout, autoload init order
+  - [x] Refactor: DB API naming, folder layout, autoload init order (added non-breaking list_/read_ aliases; autoload order reviewed)
   - [x] Lint/log review; ensure warnings are intentional (tests 19/19, warnings 0)
   - [x] Docs: update PROJECT_INDEX.md, test_baseline.md
 
