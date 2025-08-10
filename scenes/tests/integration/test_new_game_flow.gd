@@ -10,8 +10,8 @@ func test_new_game_transitions_to_main():
 	# Press New Game
 	title.get_node("UI/NewGameButton").emit_signal("pressed")
 	await get_tree().process_frame
-	# Should be in Main scene
+	# Should be in Apartment scene for Hop 6
 	var tree := get_tree()
 	var current := tree.current_scene
 	assert_not_null(current, "Current scene is set")
-	assert_eq(current.name, "Main", "Transitions to Main scene")
+	assert_eq(current.name, "Apartment", "Transitions to Apartment scene")

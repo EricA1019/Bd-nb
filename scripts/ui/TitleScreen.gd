@@ -53,8 +53,8 @@ func _on_new_game_pressed() -> void:
 		svc.call("set_current_slot", 1)
 		svc.call("start_session")
 		svc.call("force_save", 0)
-	# Transition to Main
-	_transition_to_main()
+	# Transition to Apartment for Hop 6
+	get_tree().change_scene_to_file("res://scenes/Apartment.tscn")
 
 func _on_exit_pressed() -> void:
 	print("[TitleScreen] Exit pressed")

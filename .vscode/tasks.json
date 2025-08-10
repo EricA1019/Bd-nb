@@ -109,6 +109,19 @@
       ],
       "group": "test",
       "problemMatcher": []
+    },
+    {
+      "label": "Dev: Generate Placeholder CP437 Atlas",
+      "type": "shell",
+      "command": "${config:godotTools.editorPath.godot4}",
+      "args": [
+        "--headless",
+        "--path",
+        "${workspaceFolder}",
+        "-s",
+        "res://scripts/dev/gen_placeholder_atlas.gd"
+      ],
+      "group": "build"
     }
   ],
   "inputs": [

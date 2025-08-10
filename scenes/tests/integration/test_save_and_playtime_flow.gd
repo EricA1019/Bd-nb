@@ -45,9 +45,11 @@ func test_exit_from_main_triggers_save():
 	svc.call("add_session_seconds", 2.0)
 	var before := int(_read_json("user://saves/slot_1/meta.json").get("save_count", 0))
 	var main_scene: Node = load("res://scenes/Main.tscn").instantiate()
-	add_child_autoqfree(main_scene)
+	# Attach as current scene so exit is triggered on change_scene
+	get_tree().root.add_child(main_scene)
+	get_tree().current_scene = main_scene
 	await get_tree().process_frame
-	# Change scene to Title; Main should save on exit
+	# Change scene; Main should save on exit
 	get_tree().change_scene_to_file("res://scenes/ui/TitleScreen.tscn")
 	await get_tree().process_frame
 	var after := int(_read_json("user://saves/slot_1/meta.json").get("save_count", 0))

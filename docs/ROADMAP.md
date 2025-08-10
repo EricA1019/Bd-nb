@@ -1,7 +1,7 @@
 # Broken Divinity: New Babylon — Roadmap (Close-to-Shore)
 
 Engine: Godot 4.5 beta 3 (GDScript)  •  Renderer: ASCII Grid plugin  •  DB: SQLite (user://bd.db)  •  Saves: JSON (3 slots)
-Resolution/Grid: 1280×720 window, 80×36 mono grid  •  Input: Keyboard-first  •  Font: CP437-like base (per-faction fonts deferred)
+Resolution/Grid: 1280×720 window, 80×36 mono grid  •  Input: Keyboard-first  •  Font: CP437 16×16 base (per-faction fonts deferred)
 
 This roadmap is organized into epochs → phases → hops. Each hop is a tiny, runnable vertical slice with tests and a bootable game. Every 5th hop is a Housekeeping Hop.
 
@@ -89,20 +89,30 @@ Hop 5: Housekeeping A — Done (v0.0.5)
 
 Epoch 1 — Core Demo Flow (Apartment → Alley)
 Phase 1.0 — Exploration baseline
-Hop 6: Apartment scene + static ASCII map — Planned
+Hop 6: Apartment scene + static ASCII map — Done (v0.1.0)
 - Goal: Walkable apartment room; mirror hotspot.
 - Deliverables
-  - [ ] Scene: Apartment.tscn; map from DB ascii_art
-  - [ ] Interaction system (hotspots/signs)
+  - [x] Scene: Apartment.tscn; map from DB ascii_art
+  - [x] Interaction system (hotspots/signs) — E to interact at mirror
+  - [x] New Game transitions to Apartment; tests green
 
-Hop 7: Character creation (mirror) — Planned
+Hop 7: ASCII display MVP — Planned
+- Goal: Replace placeholders with real ASCII renderer output.
+- Deliverables
+  - [ ] Import CP437 font atlas (16×16 glyph grid image)
+  - [ ] Wire TermRect.font to atlas; set characters_per_line=16; confirm tile_size
+  - [ ] AsciiView delegates create_buffer/render_buffer to TermRect (no size mismatch)
+  - [ ] Remove placeholder border/text; render buffers from scenes (Apartment/Main)
+  - [ ] Tests: verify shader textures set; grid 80×36; visible glyphs on screen
+
+Hop 8: Character creation (mirror) — Planned
 - Goal: Separate scene; choose background and traits.
 
-Hop 8: Inventory + equipment — Planned
+Hop 9: Inventory + equipment — Planned
 
-Hop 9: Alley escort setup — Planned
+Hop 10: Alley escort setup — Planned
 
-Hop 10: Housekeeping B — Planned
+Hop 11: Housekeeping B — Planned
 
 Backlog (post-demo candidates)
 - Mouse support; per-faction fonts; FOV/LOS; animations; mod loader; localization; richer procgen; AI behaviors.
