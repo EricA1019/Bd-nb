@@ -7,7 +7,6 @@ func _ready() -> void:
 	_print_log("DB", ["boot", "ensuring", _path])
 	var ok: bool = _ensure_db()
 	if not ok:
-		push_error("[DB] Failed to initialize SQLite.")
 		return
 	_ensure_seed_data()
 	_ensure_save_slots()
@@ -152,65 +151,29 @@ func _read_version(db) -> int:
 	return v
 
 func _apply_migrations(db, current:int) -> bool:
-	var dir:String = "res://data/sql"
-	var da := DirAccess.open(dir)
-	if da == null:
-		push_warning("[DB] Cannot open migrations dir: " + dir)
-		return false
-	var files: Array = []
-	da.list_dir_begin()
-	var f := da.get_next()
-	while f != "":
-		if not da.current_is_dir() and f.ends_with(".sql"):
-			files.append(f)
-		f = da.get_next()
-	da.list_dir_end()
-	files.sort() # lexicographic: 0001_*.sql, 0002_*.sql, ...
-	var applied_any := false
-	for fname in files:
-		var s:String = str(fname)
-		var uscore:int = s.find("_")
-		var dot:int = s.rfind(".")
-		if dot == -1:
-			dot = s.length()
-		var cut:int = uscore
-		if cut == -1:
-			cut = dot
-		var idx:int = int(s.substr(0, cut))
-		if idx <= current:
-			continue
-		var sql_path:String = dir + "/" + s
-		var sql:String = FileAccess.get_file_as_string(sql_path)
-		if sql.is_empty():
-			continue
-		for stmt in _split_sql(sql):
-			if stmt.is_empty():
-				continue
-			if not db.query(stmt):
-				push_error("[DB] Migration failed at " + s + ": " + stmt)
-				return applied_any
-		applied_any = true
-	# If migrations did not set version, set to max index applied
-	if applied_any:
-		var new_version:int = _read_version(db)
-		if new_version <= current:
-			var max_idx:int = 0
-			for fname2 in files:
-				var s2:String = str(fname2)
-				var us2:int = s2.find("_")
-				var d2:int = s2.rfind(".")
-				if d2 == -1:
-					d2 = s2.length()
-				var cut2:int = us2
-				if cut2 == -1:
-					cut2 = d2
-				var idx2:int = int(s2.substr(0, cut2))
-				if idx2 > max_idx:
-					max_idx = idx2
-			# Upsert schema_version
-			db.query("DELETE FROM schema_version")
-			db.query("INSERT INTO schema_version (version) VALUES (" + str(max_idx) + ")")
-	return applied_any
+	# Apply SQL files in data/sql in lexical order
+	var dir := DirAccess.open("res://data/sql")
+	if dir:
+		dir.list_dir_begin()
+		var files: Array[String] = []
+		var f := dir.get_next()
+		while f != "":
+			if not dir.current_is_dir() and f.ends_with(".sql"):
+				files.append(f)
+			f = dir.get_next()
+		files.sort() # ensures 0001_.., 0002_.., 0003_.., 0004_..
+		for file in files:
+			var sql := FileAccess.get_file_as_string("res://data/sql/" + file)
+			for stmt in _split_sql(sql):
+				if stmt.strip_edges().is_empty():
+					continue
+				var ok: bool = db.query(stmt)
+				if not ok:
+					_print_log("DB", ["migration_failed", file, db.get_last_error_message()])
+					return false
+		_migrated_version = max(current, files.size())
+		return true
+	return false
 
 func _split_sql(sql:String) -> Array:
 	var lines := sql.split("\n")

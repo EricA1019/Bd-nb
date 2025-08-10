@@ -96,17 +96,32 @@ Hop 6: Apartment scene + static ASCII map — Done (v0.1.0)
   - [x] Interaction system (hotspots/signs) — E to interact at mirror
   - [x] New Game transitions to Apartment; tests green
 
-Hop 7: ASCII display MVP — Planned
+Hop 7: ASCII display MVP — Done (v0.1.1)
 - Goal: Replace placeholders with real ASCII renderer output.
 - Deliverables
-  - [ ] Import CP437 font atlas (16×16 glyph grid image)
-  - [ ] Wire TermRect.font to atlas; set characters_per_line=16; confirm tile_size
-  - [ ] AsciiView delegates create_buffer/render_buffer to TermRect (no size mismatch)
-  - [ ] Remove placeholder border/text; render buffers from scenes (Apartment/Main)
-  - [ ] Tests: verify shader textures set; grid 80×36; visible glyphs on screen
+  - [x] Import CP437 font atlas (16×16 glyph grid image)
+  - [x] Wire TermRect.font to atlas; set characters_per_line=16; confirm tile_size
+  - [x] AsciiView delegates create_buffer/render_buffer to TermRect (no size mismatch)
+  - [x] Remove placeholder border/text; render buffers from scenes (Apartment/Main)
+  - [x] Tests: verify shader textures set; grid 80×36; visible glyphs on screen
 
-Hop 8: Character creation (mirror) — Planned
-- Goal: Separate scene; choose background and traits.
+Hop 8: Apartment exploration — Planned
+- Goal: Add exploration within the apartment with multiple interactables and distinct rooms (bedroom, kitchen, bathroom).
+- Player-visible demo: Walk between rooms; interact with bed, kitchen note, bathroom cabinet; mirror still works.
+- Deliverables
+  - [ ] Map: Expand apartment ascii_art to include room partitions and doors
+    - Tiles: walls `#`, floor `.`, doors `+` (closed) / `/` (open), room labels (dev-only, removed later)
+  - [ ] Interactables & signals:
+    - Bed `B` → signal `interacted_with_bed(msg)` (rest flavor text)
+    - Kitchen note `N` → signal `interacted_with_kitchen_note(text_id)` (lore fetch)
+    - Bathroom cabinet `C` → signal `interacted_with_cabinet(item?)`
+    - Mirror `M` remains
+  - [ ] Input/flow: door transitions between sub-rooms (same scene, local zones)
+  - [ ] UI: context hints on interact (Top/Bottom bars)
+  - [ ] Tests (pending added at `scenes/tests/integration/test_apartment_exploration.gd`):
+    - bed/kitchen/cabinet interactions
+    - can walk between rooms through doors
+    - map has room partitions
 
 Hop 9: Inventory + equipment — Planned
 
