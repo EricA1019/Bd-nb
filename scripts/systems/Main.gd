@@ -1,11 +1,33 @@
 extends Control
 
 @onready var _ascii := get_node_or_null("UIRoot/Ascii")
+var _right_label: Label = null
 
 func _ready() -> void:
 	print("[Main] boot")
 	# Minimal placeholder draw using the proper glyph atlas
 	call_deferred("_render_placeholder")
+	# ensure a label exists in RightPanel for text output
+	var rp := get_node_or_null("UIRoot/RightPanel")
+	if rp:
+		_right_label = rp.get_node_or_null("RightText")
+		if _right_label == null:
+			_right_label = Label.new()
+			_right_label.name = "RightText"
+			_right_label.autowrap_mode = TextServer.AUTOWRAP_WORD
+			_right_label.offset_left = 8
+			_right_label.offset_top = 8
+			_right_label.offset_right = 300
+			_right_label.offset_bottom = 700
+			rp.add_child(_right_label)
+	# subscribe to EventBus for UI text
+	var eb := get_node_or_null("/root/EventBus")
+	if eb:
+		eb.event.connect(_on_event)
+
+func _on_event(tag:String, payload:Variant) -> void:
+	if tag == "ui.right_text" and _right_label:
+		_right_label.text = str(payload)
 
 func _process(delta: float) -> void:
 	var svc := get_node_or_null("/root/SaveService")

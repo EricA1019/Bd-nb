@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v0.1.2] - 2025-08-12
+- Hop 8: Apartment exploration — base interactions (mirror, bed, note, cabinet) and door toggles. Added more interactables: fridge (F), closet (L), nightstand drawer (D), shower (S), kitchen cabinet (K). Flavor texts seeded; interactions emit UI text to RightPanel via EventBus. Door traversal helper for tests.
+
+## [v0.1.1] - 2025-08-12
+- Hop 7: ASCII display MVP finalized. CP437 16×16 atlas validated (256×256). `AsciiView` tightened to prefer user atlas and validate 256 glyphs. Main layout fixed to 80×36 under TopBar. Tests green.
+
 ## [v0.0.5] - 2025-08-09
 - Hop 5: Housekeeping A.
 - Test hygiene: fix float/int compare; free scenes in tests; 0 warnings baseline.

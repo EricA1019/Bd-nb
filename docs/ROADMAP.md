@@ -96,38 +96,37 @@ Hop 6: Apartment scene + static ASCII map — Done (v0.1.0)
   - [x] Interaction system (hotspots/signs) — E to interact at mirror
   - [x] New Game transitions to Apartment; tests green
 
-Hop 7: ASCII display MVP — Done (v0.1.1)
-- Goal: Replace placeholders with real ASCII renderer output.
+Hop 7: Character creation (mirror) — Planned
+- Goal: Create character via mirror interaction; select faction (angel/imp).
 - Deliverables
-  - [x] Import CP437 font atlas (16×16 glyph grid image)
-  - [x] Wire TermRect.font to atlas; set characters_per_line=16; confirm tile_size
-  - [x] AsciiView delegates create_buffer/render_buffer to TermRect (no size mismatch)
-  - [x] Remove placeholder border/text; render buffers from scenes (Apartment/Main)
-  - [x] Tests: verify shader textures set; grid 80×36; visible glyphs on screen
+  - [ ] Faction selection: angel/imp; unlocks lore and suffixes
+  - [ ] Suffix selection: based on faction; previews in RightPanel
+  - [ ] Character stats: initial HP, defense, speed; shown in RightPanel
+  - [ ] Tests: character creation flow, DB updates
 
-Hop 8: Apartment exploration — Planned
-- Goal: Add exploration within the apartment with multiple interactables and distinct rooms (bedroom, kitchen, bathroom).
-- Player-visible demo: Walk between rooms; interact with bed, kitchen note, bathroom cabinet; mirror still works.
+Hop 8: Apartment exploration baseline
+- Goal: Explore apartment with doors and basic hotspots (mirror, bed, kitchen note, bathroom cabinet).
 - Deliverables
-  - [ ] Map: Expand apartment ascii_art to include room partitions and doors
-    - Tiles: walls `#`, floor `.`, doors `+` (closed) / `/` (open), room labels (dev-only, removed later)
-  - [ ] Interactables & signals:
-    - Bed `B` → signal `interacted_with_bed(msg)` (rest flavor text)
-    - Kitchen note `N` → signal `interacted_with_kitchen_note(text_id)` (lore fetch)
-    - Bathroom cabinet `C` → signal `interacted_with_cabinet(item?)`
-    - Mirror `M` remains
-  - [ ] Input/flow: door transitions between sub-rooms (same scene, local zones)
-  - [ ] UI: context hints on interact (Top/Bottom bars)
-  - [ ] Tests (pending added at `scenes/tests/integration/test_apartment_exploration.gd`):
-    - bed/kitchen/cabinet interactions
-    - can walk between rooms through doors
-    - map has room partitions
+  - [x] Door tiles '+' '/' toggle
+  - [x] Signals for interactions; debug helpers
+  - [x] RightPanel narrative text via EventBus (ui.right_text)
 
-Hop 9: Inventory + equipment — Planned
+Hop 8.1: Interaction hotspots + flavor
+- Goal: Add more interactables and seed flavor text. No inventory effects yet.
+- Deliverables
+  - [x] Fridge (F), Closet (L), Nightstand Drawer (D), Shower (S), Kitchen Cabinet (K)
+  - [x] Flavor text in DB (lore): shower_flavor, drawer_model10, closet_jacket, kitchen_whiskey, fridge_text
+  - [x] UI: RightPanel shows interaction text
 
-Hop 10: Alley escort setup — Planned
+Hop 9: Inventory + equipment (apply item effects) — Planned
+- Goal: Minimal inventory and stats to support new items.
+- Deliverables
+  - [ ] Data: items table (id, key, name, type, effects JSON)
+  - [ ] Systems: Inventory (pickup on interact), Equip slot for jacket, Consumable for whiskey
+  - [ ] Effects: Jacket grants defense bonus; Whiskey restores HP; Model 10 .38 as weapon stub
+  - [ ] UI: Show picked-up text and simple inventory view; tests for pickups/effects
 
-Hop 11: Housekeeping B — Planned
+Hop 10: Housekeeping B — Planned
 
 Backlog (post-demo candidates)
 - Mouse support; per-faction fonts; FOV/LOS; animations; mod loader; localization; richer procgen; AI behaviors.

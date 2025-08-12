@@ -14,48 +14,57 @@ func test_apartment_map_has_rooms_and_interactables():
 		assert_true(text.find(ch) != -1, "%s marker present" % ch)
 
 func test_bed_interact_on_e():
-	pending("Implement Apartment bed interaction (signal: interacted_with_bed)")
-	return
-	# Example flow (to be enabled when implemented):
-	# var apt: Node = load("res://scenes/Apartment.tscn").instantiate()
-	# add_child_autoqfree(apt)
-	# await get_tree().process_frame
-	# var fired := [false]
-	# if apt.has_signal("interacted_with_bed"):
-	# 	apt.connect("interacted_with_bed", func(): fired[0] = true)
-	# # Place player at bed and interact (implementation should provide positioning or parse from map)
-	# if apt.has_method("debug_place_player_at"):
-	# 	apt.call("debug_place_player_at", "bed")
-	# Input.action_press("interact")
-	# await get_tree().process_frame
-	# Input.action_release("interact")
-	# await get_tree().process_frame
-	# assert_true(fired[0], "bed interaction fired")
+	var apt: Node = load("res://scenes/Apartment.tscn").instantiate()
+	add_child_autoqfree(apt)
+	await get_tree().process_frame
+	var fired := [false]
+	if apt.has_signal("interacted_with_bed"):
+		apt.connect("interacted_with_bed", func(_msg): fired[0] = true)
+	if apt.has_method("debug_place_player_at"):
+		apt.call("debug_place_player_at", "bed")
+	Input.action_press("interact")
+	await get_tree().process_frame
+	Input.action_release("interact")
+	await get_tree().process_frame
+	assert_true(fired[0], "bed interaction fired")
 
 func test_kitchen_note_interact_on_e():
-	pending("Implement Apartment kitchen note interaction (signal: interacted_with_kitchen_note)")
-	return
-	# See test_bed_interact_on_e for example flow
+	var apt: Node = load("res://scenes/Apartment.tscn").instantiate()
+	add_child_autoqfree(apt)
+	await get_tree().process_frame
+	var fired := [false]
+	if apt.has_signal("interacted_with_kitchen_note"):
+		apt.connect("interacted_with_kitchen_note", func(_text_id): fired[0] = true)
+	if apt.has_method("debug_place_player_at"):
+		apt.call("debug_place_player_at", "note")
+	Input.action_press("interact")
+	await get_tree().process_frame
+	Input.action_release("interact")
+	await get_tree().process_frame
+	assert_true(fired[0], "kitchen note interaction fired")
 
 func test_bathroom_cabinet_interact_on_e():
-	pending("Implement Apartment bathroom cabinet interaction (signal: interacted_with_cabinet)")
-	return
-	# See test_bed_interact_on_e for example flow
+	var apt: Node = load("res://scenes/Apartment.tscn").instantiate()
+	add_child_autoqfree(apt)
+	await get_tree().process_frame
+	var fired := [false]
+	if apt.has_signal("interacted_with_cabinet"):
+		apt.connect("interacted_with_cabinet", func(_item): fired[0] = true)
+	if apt.has_method("debug_place_player_at"):
+		apt.call("debug_place_player_at", "cabinet")
+	Input.action_press("interact")
+	await get_tree().process_frame
+	Input.action_release("interact")
+	await get_tree().process_frame
+	assert_true(fired[0], "cabinet interaction fired")
 
 func test_can_walk_between_rooms_through_doors():
-	pending("Implement door tiles and transitions between bedroom/kitchen/bathroom zones")
-	return
-	# Example flow:
-	# var apt: Node = load("res://scenes/Apartment.tscn").instantiate()
-	# add_child_autoqfree(apt)
-	# await get_tree().process_frame
-	# if apt.has_method("debug_place_player_at"):
-	# 	apt.call("debug_place_player_at", "bedroom")
-	# # Simulate movement towards a door tile 'D' and into next room
-	# for i in 10:
-	# 	Input.parse_input_event(InputEventKey.new()) # placeholder for movement helpers
-	# await get_tree().process_frame
-	# assert_true(true)
+	var apt: Node = load("res://scenes/Apartment.tscn").instantiate()
+	add_child_autoqfree(apt)
+	await get_tree().process_frame
+	assert_true(apt.has_method("debug_walk_through_any_door"), "debug door helper present")
+	var ok: bool = apt.call("debug_walk_through_any_door")
+	assert_true(ok, "player can traverse at least one door")
 
 func test_map_has_room_partitions():
 	pending("Expand apartment ascii_art map with partitions and doors")
