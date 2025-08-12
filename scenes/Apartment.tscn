@@ -20,3 +20,37 @@ offset_right = 640.0
 offset_bottom = 576.0
 script = ExtResource("2")
 color = Color(0, 0, 0, 0)
+
+[node name="RightPanel" type="ColorRect" parent="."]
+layout_mode = 1
+offset_left = 640.0
+offset_top = 0.0
+offset_right = 960.0
+offset_bottom = 576.0
+color = Color(0.25, 0.25, 0.25, 1)
+
+[node name="RightText" type="Label" parent="RightPanel"]
+layout_mode = 1
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 300.0
+offset_bottom = 560.0
+autowrap_mode = 2
+text = ""
+
+[node name="BottomBar" type="ColorRect" parent="."]
+layout_mode = 1
+offset_left = 0.0
+offset_top = 576.0
+offset_right = 960.0
+offset_bottom = 640.0
+color = Color(0.2, 0.7, 0.2, 1)
+
+[node name="BottomText" type="Label" parent="BottomBar"]
+layout_mode = 1
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 944.0
+offset_bottom = 56.0
+autowrap_mode = 2
+text = ""

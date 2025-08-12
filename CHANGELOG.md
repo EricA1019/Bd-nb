@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v0.1.3] - 2025-08-12
+- Hop 8.2: Interaction UI — RightPanel narrative and Bottom choices wired for Apartment scene. Added EventBus handlers; emitted ui.right_text and ui.bottom_text from interactions. Taller BottomBar in Main; Apartment scene includes its own Right/Bottom panels when run directly.
+
 ## [v0.1.2] - 2025-08-12
 - Hop 8: Apartment exploration — base interactions (mirror, bed, note, cabinet) and door toggles. Added more interactables: fridge (F), closet (L), nightstand drawer (D), shower (S), kitchen cabinet (K). Flavor texts seeded; interactions emit UI text to RightPanel via EventBus. Door traversal helper for tests.
 

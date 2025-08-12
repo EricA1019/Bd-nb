@@ -2,6 +2,7 @@ extends Control
 
 @onready var _ascii := get_node_or_null("UIRoot/Ascii")
 var _right_label: Label = null
+var _bottom_label: Label = null
 
 func _ready() -> void:
 	print("[Main] boot")
@@ -20,6 +21,19 @@ func _ready() -> void:
 			_right_label.offset_right = 300
 			_right_label.offset_bottom = 700
 			rp.add_child(_right_label)
+	# ensure a label exists in BottomBar for choices
+	var bb := get_node_or_null("UIRoot/BottomBar")
+	if bb:
+		_bottom_label = bb.get_node_or_null("BottomText")
+		if _bottom_label == null:
+			_bottom_label = Label.new()
+			_bottom_label.name = "BottomText"
+			_bottom_label.autowrap_mode = TextServer.AUTOWRAP_WORD
+			_bottom_label.offset_left = 8
+			_bottom_label.offset_top = 6
+			_bottom_label.offset_right = 1264
+			_bottom_label.offset_bottom = 100
+			bb.add_child(_bottom_label)
 	# subscribe to EventBus for UI text
 	var eb := get_node_or_null("/root/EventBus")
 	if eb:
@@ -28,6 +42,8 @@ func _ready() -> void:
 func _on_event(tag:String, payload:Variant) -> void:
 	if tag == "ui.right_text" and _right_label:
 		_right_label.text = str(payload)
+	elif (tag == "ui.bottom_text" or tag == "ui.bottom_choices") and _bottom_label:
+		_bottom_label.text = str(payload)
 
 func _process(delta: float) -> void:
 	var svc := get_node_or_null("/root/SaveService")

@@ -26,6 +26,8 @@ var _shower_pos: Vector2i = Vector2i(-1, -1)
 var _kitchen_cabinet_pos: Vector2i = Vector2i(-1, -1)
 
 var ascii: Node = null
+var _right_label: Label = null
+var _bottom_label: Label = null
 
 func _ready() -> void:
 	# resolve ascii view anywhere in the scene tree
@@ -36,8 +38,43 @@ func _ready() -> void:
 		text = _fallback_map()
 	_parse_map(text)
 	_render()
+	# Create UI labels if panels exist in this scene
+	var rp := get_node_or_null("RightPanel")
+	if rp:
+		_right_label = rp.get_node_or_null("RightText")
+		if _right_label == null:
+			_right_label = Label.new()
+			_right_label.name = "RightText"
+			_right_label.autowrap_mode = TextServer.AUTOWRAP_WORD
+			_right_label.offset_left = 8
+			_right_label.offset_top = 8
+			_right_label.offset_right = 300
+			_right_label.offset_bottom = 700
+			rp.add_child(_right_label)
+	var bb := get_node_or_null("BottomBar")
+	if bb:
+		_bottom_label = bb.get_node_or_null("BottomText")
+		if _bottom_label == null:
+			_bottom_label = Label.new()
+			_bottom_label.name = "BottomText"
+			_bottom_label.autowrap_mode = TextServer.AUTOWRAP_WORD
+			_bottom_label.offset_left = 8
+			_bottom_label.offset_top = 8
+			_bottom_label.offset_right = 1264
+			_bottom_label.offset_bottom = 72
+			bb.add_child(_bottom_label)
+	# Subscribe to EventBus for UI text
+	var eb := get_node_or_null("/root/EventBus")
+	if eb:
+		eb.event.connect(_on_event)
 	set_process_input(true)
 	set_process(true)
+
+func _on_event(tag:String, payload:Variant) -> void:
+	if tag == "ui.right_text" and _right_label:
+		_right_label.text = str(payload)
+	elif (tag == "ui.bottom_text" or tag == "ui.bottom_choices") and _bottom_label:
+		_bottom_label.text = str(payload)
 
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("interact"):
@@ -64,35 +101,41 @@ func _try_interact() -> void:
 		_set_tile(_player_pos, "/")
 		_render()
 		_print_log(["Apartment", "door_open"]) 
+		_emit_choice_text("Door opens. [E] to close.")
 		return
 	elif here == "/":
 		_set_tile(_player_pos, "+")
 		_render()
 		_print_log(["Apartment", "door_close"]) 
+		_emit_choice_text("Door closes. [E] to open.")
 		return
 	# Mirror
 	if _player_pos == _mirror_pos:
 		emit_signal("interacted_with_mirror")
 		_print_log(["Apartment", "mirror_interact"]) 
 		_emit_ui_text(DB.read_lore("mirror") if DB.has_method("read_lore") else "You see yourself.")
+		_emit_choice_text("[E] Step away")
 		return
 	# Bed
 	if _player_pos == _bed_pos:
 		emit_signal("interacted_with_bed", "You feel rested.")
 		_print_log(["Apartment", "bed_interact"]) 
 		_emit_ui_text("The sheets are a mess. Maybe later.")
+		_emit_choice_text("[E] Make bed • [WASD] Move")
 		return
 	# Note
 	if _player_pos == _note_pos:
 		emit_signal("interacted_with_kitchen_note", "kitchen_note_1")
 		_print_log(["Apartment", "note_interact"]) 
 		_emit_ui_text(DB.read_lore("kitchen_note_1") if DB.has_method("read_lore") else "A hastily scribbled recipe.")
+		_emit_choice_text("[E] Put back • [WASD] Move")
 		return
 	# Cabinet (bathroom)
 	if _player_pos == _cabinet_pos:
 		emit_signal("interacted_with_cabinet", "cabinet_item_1")
 		_print_log(["Apartment", "cabinet_interact"]) 
 		_emit_ui_text("Empty toothpaste boxes and bandages.")
+		_emit_choice_text("[E] Close cabinet")
 		return
 	# Fridge
 	if _player_pos == _fridge_pos:
@@ -100,6 +143,7 @@ func _try_interact() -> void:
 		emit_signal("interacted_with_fridge", t1)
 		_print_log(["Apartment", "fridge_interact"]) 
 		_emit_ui_text(t1)
+		_emit_choice_text("[E] Close fridge • [WASD] Move")
 		return
 	# Drawer (nightstand)
 	if _player_pos == _drawer_pos:
@@ -107,6 +151,7 @@ func _try_interact() -> void:
 		_print_log(["Apartment", "drawer_interact", "model10_38"]) 
 		var t2 := DB.read_lore("drawer_model10") if DB.has_method("read_lore") else "There's a revolver in here."
 		_emit_ui_text(t2)
+		_emit_choice_text("[E] Take • [WASD] Move")
 		return
 	# Closet
 	if _player_pos == _closet_pos:
@@ -114,6 +159,7 @@ func _try_interact() -> void:
 		_print_log(["Apartment", "closet_interact", "old_leather_jacket"]) 
 		var t3 := DB.read_lore("closet_jacket") if DB.has_method("read_lore") else "Your old jacket is here."
 		_emit_ui_text(t3)
+		_emit_choice_text("[E] Wear • [WASD] Move")
 		return
 	# Shower
 	if _player_pos == _shower_pos:
@@ -121,6 +167,7 @@ func _try_interact() -> void:
 		emit_signal("interacted_with_shower", t4)
 		_print_log(["Apartment", "shower_interact"]) 
 		_emit_ui_text(t4)
+		_emit_choice_text("[E] Turn off • [WASD] Move")
 		return
 	# Kitchen cabinet (whiskey)
 	if _player_pos == _kitchen_cabinet_pos:
@@ -128,6 +175,7 @@ func _try_interact() -> void:
 		_print_log(["Apartment", "kitchen_cabinet_interact", "kitchen_whiskey"]) 
 		var t5 := DB.read_lore("kitchen_whiskey") if DB.has_method("read_lore") else "A bottle of whiskey."
 		_emit_ui_text(t5)
+		_emit_choice_text("[E] Take • [WASD] Move")
 		return
 
 func _move(delta: Vector2i) -> void:
@@ -339,3 +387,8 @@ func _emit_ui_text(text: String) -> void:
 	var eb := get_node_or_null("/root/EventBus")
 	if eb and eb.has_method("emit_event"):
 		eb.call("emit_event", "ui.right_text", text)
+
+func _emit_choice_text(text: String) -> void:
+	var eb := get_node_or_null("/root/EventBus")
+	if eb and eb.has_method("emit_event"):
+		eb.call("emit_event", "ui.bottom_text", text)
